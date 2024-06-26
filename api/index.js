@@ -1,4 +1,18 @@
 import express from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+mongoose
+    //connect the db with string inside .env (private) file
+    .connect(process.env.MANGO)
+    .then(
+        () => { console.log('MongoDb is connected');
+    }).catch( err => {
+        console.log(err);
+    });
+
 
 const app = express();
 
