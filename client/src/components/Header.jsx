@@ -22,7 +22,7 @@ export default function Header() {
       <Button className="w-12 h-10 lg:hidden" color='gray' pill>
         <AiOutlineSearch />
       </Button>
-      <div className="flex gap-2">
+      <div className="flex md:order-2 gap-2">
         <Button className="w-12 h-10 hidden sm:inline" color="gray" pill>
           <FaMoon />
         </Button>
