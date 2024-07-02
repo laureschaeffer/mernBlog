@@ -1,4 +1,5 @@
 import User from '../models/user.model.js';
+import bcryptjs from 'bcryptjs';
 
 //async since the response will take time, we need to wait and then resend it
 export const signup = async (req, res) => {
@@ -9,18 +10,26 @@ export const signup = async (req, res) => {
         return res.status(400).json({ message: 'All fields are required' });
     }
 
+    //hash the password
+    const hashedPassword = bcryptjs.hashSync(password, 10) //10 is the number of rounds for salt
+
     const newUser = new  User({
         //only writting username equals to username: username when both are the same string
-        username: username,
-        email: email,
-        password: password
+        username,
+        email,
+        password: hashedPassword
     });
 
-    //save the new User inside  db
-    await newUser.save();
+    try{
+        //save the new User inside  db
+        await newUser.save();
+        //create a response
+        res.json('Signup successful');
 
-    //create a response
-    res.json( 'Signup successful');
+    } catch(error){
+        res.status(500).json({message : error.message}) ;
+    }
+
 }
 
 
