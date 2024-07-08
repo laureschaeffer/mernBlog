@@ -1,11 +1,13 @@
 import { Alert, Button, Label, Spinner, TextInput } from 'flowbite-react';
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice.js';
 
 export default function SignIn() {
   const [ formData, setFormData] = useState({});
-  const [errorMessages, setErrorMessage] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const {loading, error: errorMessages} = useSelector(state => state.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -18,12 +20,12 @@ export default function SignIn() {
     e.preventDefault();
 
     if(!formData.email || !formData.password){
-      return setErrorMessage('Please fill out all fields.')
+      return dispatch(signInFailure('Please fill out all fields.'));
     }
 
     try {
-      setLoading(true); //when we try we're loading
-      setErrorMessage(null); //clean error array
+      dispatch(signInStart());
+
       //fetch data: routes, http method, header
       const res = await fetch("/api/auth/signin", {
         method: "POST",
@@ -33,18 +35,17 @@ export default function SignIn() {
       const data = await res.json();
 
       if(data.success === false){
-        return setErrorMessage(data.message);
+        dispatch(signInFailure(data.message));
       }
 
       //if everything went well you can go to the home page
       if(res.ok){
+        dispatch(signInSuccess(data));
         navigate('/');
       }
 
-      setLoading(false);
     } catch (error) {
-      setErrorMessage(error.message);
-      setLoading(false);
+      dispatch(signInFailure(error.message));
     }
   }
 
