@@ -10,7 +10,7 @@ export default function SignUp() {
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim()});
-    // the ... spread syntax to merde multiple objects into one new object
+    // the ... spread syntax to merge multiple objects into one new object
   }
 
   const handleSubmit = async (e) => {
