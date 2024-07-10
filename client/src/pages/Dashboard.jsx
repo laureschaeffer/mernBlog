@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import DashSidebar from './DashSidebar.jsx';
-import DashProfile from './DashProfile.jsx';
+import DashProfile from '../components/DashProfile.jsx';
+import DashSidebar from '../components/DashSidebar.jsx';
 
 export default function Dashboard() {
   // find on which tab the user is (/dashboard?tab=profile)
