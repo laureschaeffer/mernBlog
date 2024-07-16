@@ -7,9 +7,15 @@ Following Udemy's coursework
 
 ## Start the application
 
-You should use two terminals: one for the front ('/client') and one for the back ('/api').
+First install all dependencies
 
-Change directories to the corrects folders and start both servers.
+``` sh
+npm i
+```
+
+You should use **two terminals** : one for the front ('/client') and one for the back ('/api').
+
+Change directories (cd) to the corrects folders and start both servers.
 
 ``` sh
 npm run dev  
