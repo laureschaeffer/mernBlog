@@ -147,14 +147,39 @@ export default function CreatePost() {
 
         <div className="flex gap-4 items-center justify-between border-4 border-teal-500 border-dotted p-3">
           <FileInput type='file' accept="image/*" onChange={handleImageChange}/>
-          <Button type="button" gradientDuoTone='purpleToBlue' size='sm' outline onClick={uploadImage} disabled={imageFileUploadProgress} >Upload image</Button>
+          <Button type="button" gradientDuoTone='purpleToBlue' size='sm' outline onClick={uploadImage} disabled={imageFileUploadProgress} >
+		  
+		  {imageFileUploadProgress ? (
+							<div className="size-16">
+								<CircularProgressbar
+									value={imageFileUploadProgress}
+									text={`${imageFileUploadProgress}%`}
+								/>
+							</div>
+						) : (
+							"Upload image"
+						)}
+		  </Button>
         </div>
 
+		{imageFileUploadError && (
+					<Alert color={"failure"}>{imageFileUploadError}</Alert>
+				)}
+		{formData.image && (
+					<img
+						src={formData.image}
+						alt="upload"
+						className="w-full h-72 object-cover"
+					></img>
+				)}
         <ReactQuill theme="snow" placeholder="Write something"
         className="h-72 mb-12" required onChange={handleQuill} />
         <Button type="submit" gradientDuoTone='purpleToPink' >
           Publish
         </Button>
+		{publishError && (
+					<Alert className="mt-5" color={"failure"}>{publishError}</Alert>
+				)}
       </form>
     </div>
   )
