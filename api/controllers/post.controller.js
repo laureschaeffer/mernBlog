@@ -24,5 +24,50 @@ export const create = async (req, res, next) => {
     } catch (error) {
         next(error);
     }
+}
 
+export const getposts = async (req, res, next) =>{
+    try {
+        const startIndex = parseInt(req.query.startIndex) || 0;
+        const limit = parseInt(req.query.limit) || 9;
+        const sortDirection = req.query.order === 'asc' ? 1 : -1 ;
+        const posts = await Post.find({
+            // if the request has our user id it's bc we want to get the post for a specific user => find by userId
+            //same logic for category, slug, postId
+            ...(req.query.userId && { userId: req.query.userId}),
+            ...(req.query.category && { category: req.query.category}),
+            ...(req.query.slug && { category: req.query.slug}),
+            ...(req.query.postId && { _id: req.query.postId}),
+
+            //if contain searchTerm it's from the searchbar => search in title and content post
+            ...(req.query.searchTerm && { 
+                $or: [
+                    { title: { $regex: req.query.searchTerm, $options: 'i'}}, //i option= upercase or lowercase
+                    { content: { $regex: req.query.searchTerm, $options: 'i'}} 
+                ]
+            }),
+        }).sort( { updatedAt: sortDirection }).skip(startIndex).limit(limit)
+
+        const totalPosts = await Post.countDocuments();
+
+        const now = new Date();
+        const oneMonthAgo = new Date(
+            now.getFullYear(),
+            now.getMonth()-1,
+            now.getDate()
+        )
+        const lastMonthPosts = await Post.countDocuments({
+            createdAt: { $gte: oneMonthAgo}
+        })
+
+        //response
+        res.status(200).json({
+            posts,
+            totalPosts,
+            lastMonthPosts
+        })
+
+    } catch (error) {
+        next(error);
+    }
 }
