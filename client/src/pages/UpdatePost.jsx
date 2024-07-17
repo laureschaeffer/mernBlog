@@ -7,8 +7,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { app } from "../firebase";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-
-
+import {useSelector} from 'react-redux';
+//version originale
 export default function UpdatePost() {
   // const for upload picture 
   const [imageFile, setImageFile] = useState(null);
@@ -16,15 +16,16 @@ export default function UpdatePost() {
 	const [imageFileUploadError, setImageFileUploadError] = useState(null);
 	const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
 	const [formData, setFormData] = useState({});
-    const [publishError, setPublishError] = useState(null);
-    const { postId } = useParams();
+  const [publishError, setPublishError] = useState(null);
+  const { postId } = useParams();
 
     const navigate = useNavigate();
+    const { currentUser } = useSelector((state) => state.user);
 
     useEffect(() => {
         try {
             const fetchPost = async () => {
-                const res = await fetch(`api/post/getposts?postId=${postId}`);
+                const res = await fetch(`/api/post/getposts?postId=${postId}`);
                 const data = await res.json();
 
                 if(!res.ok){
@@ -36,11 +37,11 @@ export default function UpdatePost() {
                     setPublishError(null);
                     setFormData(data.posts[0]);
                 }
-            }
+            };
             fetchPost();
 
         } catch (error) {
-            console.log(error);
+            console.log(error.message);
         }
 
     }, [postId]
@@ -128,8 +129,9 @@ export default function UpdatePost() {
 		try {
 			setImageFileUploadError(null);
 
-			const res = await fetch("/api/post/create", {
-				method: "POST",
+			const res = await fetch(`/api/post/updatepost/${postId}/${currentUser._id}`, {
+			// const res = await fetch(`/api/post/updatepost/${formData._id}/${currentUser._id}`, {
+				method: "PUT",
 				headers: {
 					"Content-Type": "application/json",
 				},
@@ -158,7 +160,7 @@ export default function UpdatePost() {
 
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
-      <h1 className="text-center text-3xl my-7 font-semibold">Update a post</h1>
+      <h1 className="text-center text-3xl my-7 font-semibold">Update post</h1>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
@@ -206,10 +208,10 @@ export default function UpdatePost() {
         <ReactQuill theme="snow"
         className="h-72 mb-12" required 
         onChange={handleQuill}
-        value={"formData.content"}
+        value={formData.content}
         />
         <Button type="submit" gradientDuoTone='purpleToPink' >
-          Publish
+          Update post
         </Button>
 		{publishError && (
 			    <Alert className="mt-5" color={"failure"}>{publishError}</Alert>

@@ -29,8 +29,6 @@ export default function App() {
         {/* make dashboard private to only ADMIN by creating a private wrapper component */}
         <Route element={<OnlyAdminPrivateRoute />}> 
           <Route path='/create-post' element={<CreatePost />} />
-        </Route>
-        <Route element={<OnlyAdminPrivateRoute />}> 
           <Route path='/update-post/:postId' element={<UpdatePost />} />
         </Route>
         <Route path='/projects' element={<Projects />} />
