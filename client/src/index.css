@@ -9,3 +9,35 @@ body{
 .ql-editor{
     font-size: 1.05rem;
 }
+.post-content h1, .post-content h2, .post-content h3{
+    font-family: sans-serif;
+    margin: 1.5rem 0;
+}
+
+.post-content h1{
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.post-content h2{
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
+.post-content h3{
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.post-content a{
+    color: rgb(73, 149, 199);
+    text-decoration: none;
+}
+
+.post-content a:hoer{
+    text-decoration: underline;
+}
+
+.post-content p{
+    margin-bottom: 0.5rem;
+}

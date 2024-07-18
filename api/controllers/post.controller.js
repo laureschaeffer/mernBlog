@@ -36,7 +36,7 @@ export const getposts = async (req, res, next) =>{
             //same logic for category, slug, postId
             ...(req.query.userId && { userId: req.query.userId}),
             ...(req.query.category && { category: req.query.category}),
-            ...(req.query.slug && { category: req.query.slug}),
+            ...(req.query.slug && { slug: req.query.slug}),
             ...(req.query.postId && { _id: req.query.postId}),
 
             //if contain searchTerm it's from the searchbar => search in title and content post
