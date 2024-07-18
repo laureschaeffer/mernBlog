@@ -55,8 +55,8 @@ export const updateUser = async (req, res, next) => {
 }
 
 export const deleteUser = async (req, res, next) => {
-    //if the id from cookue isn't the same as the id from the url
-    if(req.user.id != req.params.userId){
+    //if the id from cookie isn't the same as the id from the url and if they're not an admin
+    if(!req.user.isAdmin && req.user.id != req.params.userId){
         return next(errorHandler(403, 'You are not allowed to delete this user'));
     }
     try {
