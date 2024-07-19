@@ -32,7 +32,8 @@ export default function CommentSection({postId}) {
     
             if(res.ok){
                 setComment('');
-                setCommentError(null)
+                setCommentError(null);
+                setComments([data, ...comments]) //add the new comment at the top
             }
         } catch (error) {
             setCommentError(error.message);
