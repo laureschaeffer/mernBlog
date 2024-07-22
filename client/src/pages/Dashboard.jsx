@@ -5,6 +5,7 @@ import DashSidebar from '../components/DashSidebar.jsx';
 import DashPosts from '../components/DashPosts.jsx';
 import DashUsers from '../components/DashUsers.jsx';
 import DashComments from '../components/DashComments.jsx';
+import DashboardComp from '../components/DashboardComp.jsx';
 
 export default function Dashboard() {
   // find on which tab the user is (/dashboard?tab=profile)
@@ -31,6 +32,8 @@ export default function Dashboard() {
       {tab === 'users' && <DashUsers />}
       {/* comments  */}
       {tab === 'comments' && <DashComments />}
+      {/* dashboard component  */}
+      {tab === 'dash' && <DashboardComp />}
     </div>
   )
 }
